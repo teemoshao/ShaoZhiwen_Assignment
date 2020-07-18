@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" id="bootstrap-css">
+
+
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+<style>
+.form-elegant .font-small {
+    font-size: 0.8rem; }
+
+.form-elegant .z-depth-1a {
+    -webkit-box-shadow: 0 2px 5px 0 rgba(55, 161, 255, 0.26), 0 4px 12px 0 rgba(121, 155, 254, 0.25);
+    box-shadow: 0 2px 5px 0 rgba(55, 161, 255, 0.26), 0 4px 12px 0 rgba(121, 155, 254, 0.25); }
+
+.form-elegant .z-depth-1-half,
+.form-elegant .btn:hover {
+    -webkit-box-shadow: 0 5px 11px 0 rgba(85, 182, 255, 0.28), 0 4px 15px 0 rgba(36, 133, 255, 0.15);
+    box-shadow: 0 5px 11px 0 rgba(85, 182, 255, 0.28), 0 4px 15px 0 rgba(36, 133, 255, 0.15); }
+
+.form-elegant .modal-header {
+    border-bottom: none; }
+
+.modal-dialog .form-elegant .btn .fab {
+    color: #2196f3!important; }
+
+.form-elegant .modal-body, .form-elegant .modal-footer {
+    font-weight: 400; }
+</style>
+
+<script>
+function startTime() {
+  var today = new Date();
+  var h = today.getHours();
+  var m = today.getMinutes();
+  var s = today.getSeconds();
+  m = checkTime(m);
+  s = checkTime(s);
+  document.getElementById('txt').innerHTML = "Time: "+
+  h + ":" + m + ":" + s;
+  var t = setTimeout(startTime, 500);
+}
+function checkTime(i) {
+  if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+  return i;
+}
+</script>
+
+<script>
+$(document).ready(function () {
+
+            $.ajax({
+                type: "POST",
+                url: "https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType=fnd&lang=en",
+                dataType: "json",
+                success: function (result, status, xhr) {
+              
+                
+				var todaytemp = result.soilTemp[0].value+ "°C";
+				//var maxtemp = result.weatherForecast[0].forecastMaxtemp.value+"C";
+				var place = result.soilTemp[0].place;
+				var time = result.soilTemp[0].recordTime;
+				
+				document.getElementById("temp").innerHTML =  "Temp: "+todaytemp;
+				document.getElementById("place").innerHTML = "Location: "+place;
+					document.getElementById("rectime").innerHTML =  "Data: "+time;
+           
+                },
+                error: function (xhr, status, error) {
+                    alert("Result: " + status + " " + error + " " + xhr.status + " " + xhr.statusText)
+                }
+            });
+        });
+ 
+
+
+</script>
+
+<script>
+	$(document).ready(function(){   
+	 var favlist = [];
+	 var favitem = 0;
+	 
+	 var favlist2 = [];
+	 var favitem2 = 0;
+	 
+	 
+	 var favlist3 = [];
+	 var favitem3 = 0;
+	 
+	 var favlist4 = [];
+	 var favitem4 = 0;
+	 
+	 var favlist5 = [];
+	 var favitem5 = 0;
+	 
+	 var favlist6 = [];
+	 var favitem6 = 0;
+
+	 
+	 $("#add").click(function(){
+	 
+	 favlist[favitem] = $("#favorite_list").val();	
+	 favitem +=1;
+	 localStorage.setItem("favlist", JSON.stringify(favlist));
+	  
+	 })
+	 
+	 
+	// handle button clicks         
+  $('#buttonID').click(function() {
+		// make an ajax call
+		alert($('#formID').serialize());
+    $.ajax({
+            dataType: 'jsonp',
+            jsonpCallback: '_wrapper',
+            data: $('#formID').serialize(),
+            type: 'POST',
+            url: "http://127.0.0.1:9999/member",
+            success: handleButtonResponse,
+        });
+    });
+    function handleButtonResponse(data){
+      alert(data);
+      // parse the json string
+      var jsonObject = JSON.parse(data);
+      $('#reponseID').append( jsonObject.message );
+    }
+	
+	$("#addfav1").click(function(){
+		var tempName;
+		tempName=localStorage.getItem("name");		
+		var name="&Email="+tempName;
+		alert("Adding is success");
+		var jsonData={"user": name};
+		 $.ajax({
+				url: "http://127.0.0.1:9999/addfav1", 
+				dataType: 'jsonp',
+				type: 'POST',
+				data: JSON.stringify(jsonData),
+				success: function(result){
+				}, error: function (xhr, textStatus, errorThrown) {
+      		}
+	});
+	window.location.reload();
+    });
+	
+	$("#addfav2").click(function(){
+		var tempName;
+		tempName=localStorage.getItem("name");		
+		var name="&Email="+tempName;
+		alert("Adding is success");
+		var jsonData={"user": name};
+		 $.ajax({
+				url: "http://127.0.0.1:9999/addfav2", 
+				dataType: 'jsonp',
+				type: 'POST',
+				data: JSON.stringify(jsonData),
+				success: function(result){
+				}, error: function (xhr, textStatus, errorThrown) {
+      		}
+	});
+	window.location.reload();
+    });
+	
+	$("#addfav3").click(function(){
+		var tempName;
+		tempName=localStorage.getItem("name");		
+		var name="&Email="+tempName;
+		alert("Adding is success");
+		var jsonData={"user": name};
+		 $.ajax({
+				url: "http://127.0.0.1:9999/addfav3", 
+				dataType: 'jsonp',
+				type: 'POST',
+				data: JSON.stringify(jsonData),
+				success: function(result){
+				}, error: function (xhr, textStatus, errorThrown) {
+      		}
+	});
+	window.location.reload();
+    });
+	
+	$("#addfav4").click(function(){
+		var tempName;
+		tempName=localStorage.getItem("name");		
+		var name="&Email="+tempName;
+		alert("Adding is success");
+		var jsonData={"user": name};
+		 $.ajax({
+				url: "http://127.0.0.1:9999/addfav4", 
+				dataType: 'jsonp',
+				type: 'POST',
+				data: JSON.stringify(jsonData),
+				success: function(result){
+				}, error: function (xhr, textStatus, errorThrown) {
+      		}
+	});
+	window.location.reload();
+    });
+	
+	$("#addfav5").click(function(){
+		var tempName;
+		tempName=localStorage.getItem("name");		
+		var name="&Email="+tempName;
+		alert("Adding is success");
+		var jsonData={"user": name};
+		 $.ajax({
+				url: "http://127.0.0.1:9999/addfav5", 
+				dataType: 'jsonp',
+				type: 'POST',
+				data: JSON.stringify(jsonData),
+				success: function(result){
+				}, error: function (xhr, textStatus, errorThrown) {
+      		}
+	});
+	window.location.reload();
+    });
+	
+	$("#addfav6").click(function(){
+		var tempName;
+		tempName=localStorage.getItem("name");		
+		var name="&Email="+tempName;
+		alert("Adding is success");
+		var jsonData={"user": name};
+		 $.ajax({
+				url: "http://127.0.0.1:9999/addfav6", 
+				dataType: 'jsonp',
+				type: 'POST',
+				data: JSON.stringify(jsonData),
+				success: function(result){
+				}, error: function (xhr, textStatus, errorThrown) {
+      		}
+	});
+	window.location.reload();
+    });
+	
+	$("#logout").click(function(){
+		alert(" please wait.");
+		localStorage.removeItem("name");
+		localStorage.removeItem("favlist");
+		localStorage.clear();
+		window.location.href = "http://127.0.0.1:9999/index";
+	})
+$("#save").click(function(){
+	
+	var tempName, tempfavlist;
+	tempName=localStorage.getItem("name");
+	tempfavlist=localStorage.getItem("favlist");
+		
+	var myfavdata="&Email="+tempName+"&favlist="+tempfavlist;
+
+	$.ajax({
+	type: "POST",
+	data:  myfavdata ,
+	url: "http://127.0.0.1:9999/member",
+	success: function (result) {
+		alert(result);
+		if (result == "OK") {
+		alert("The data was sent to server!");
+		} else {
+		alert("The data wasnt sent to server");
+		}
+		}, error: function (xhr, textStatus, errorThrown) {
+		alert("Favourite_List is lose");
+		console.log(textStatus);
+		}
+	});
+});
+
+});
+
+	
+</script>
+
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Creative - Start Bootstrap Theme</title>
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico" />
+        <!-- Font Awesome icons (free version)-->
+        <script src="https://use.fontawesome.com/releases/v5.13.0/js/all.js" crossorigin="anonymous"></script>
+        <!-- Google fonts-->
+        <link href="https://fonts.googleapis.com/css?family=Merriweather+Sans:400,700" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic" rel="stylesheet" type="text/css" />
+        <!-- Third party plugin CSS-->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.min.css" rel="stylesheet" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="css/styles.css" rel="stylesheet" />
+    </head>
+
+<!-- Modal -->
+
+
+    <body id="page-top">
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
+            <div class="container">
+                <a class="navbar-brand js-scroll-trigger" href="#page-top">Coffee Beans</a><button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ml-auto my-2 my-lg-0">
+                        <!--<li class="nav-item"><a class="nav-link js-scroll-trigger" href="#about">About</a></li>-->
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="/member_mainpage">All beans</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="/member_favlist">MyFavoriteBeans</a></li>
+						<li class="nav-item"><a class="nav-link js-scroll-trigger" href="/API">API</a></li>
+						<li class="nav-item"><a class="nav-link js-scroll-trigger" href="/MyAPI">MyAPI</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" id="logout" >Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- Masthead-->
+        <header class="masthead">
+            <div class="container h-100">
+                <div class="row h-100 align-items-center justify-content-center text-center">
+                    <div class="col-lg-10 align-self-end">
+                        <h1 class="text-uppercase text-white font-weight-bold">Your Favorite Coffee beans</h1>
+                        <hr class="divider my-4" />
+                    </div>
+                    <div class="col-lg-8 align-self-baseline">
+                        <p class="text-white-75 font-weight-light mb-5">Each coffee bean from the production area has a special flavor, and then through different roasting degrees, it can show a wonderful taste!</p>
+                        <p class="text-white-75 font-weight-light mb-5">Let's record your favorite coffee beans!</p>
+                    </div>
+					      <div class="col-lg-8 align-self-baseline">
+                        <p class="text-white-75 font-weight-light mb-5" id="temp"></p>
+                        <p class="text-white-75 font-weight-light mb-5"id="place"></p>
+						<p class="text-white-75 font-weight-light mb-5"id="rectime"></p>
+						<p class="text-white-75 font-weight-light mb-5"id="txt"></p>
+						<body onload="startTime()">
+                        
+                    </div>
+
+                </div>
+            </div>
+        </header>
+
+
+        <!-- About-->
+        
+        <!-- Services-->
+        
+        <!-- Portfolio-->
+        <div id="portfolio">
+            <div class="container-fluid p-0">
+                <div class="row no-gutters">
+                    
+					<div class="col-lg-4 col-sm-6">
+                        <a class="portfolio-box" href="assets/img/portfolio/fullsize/c1.jpg"
+                            ><img class="img-fluid" src="assets/img/portfolio/thumbnails/c1.jpg" alt="" />
+                            <div class="portfolio-box-caption">
+							<!-- 1-->
+                                <div class="project-category text-white-50">Honduras</div>
+                                <div>Flavor: rich cocoa, calm atmosphere</div>
+								<div>Baking degree: Medium baking</div>
+								<div>Matching: brownies, chocolate</div>
+								<button id="addfav1"  type="button">Add to your favorite list</button>
+                            </div></a>
+							
+                    </div>
+                    <div class="col-lg-4 col-sm-6">
+                        <a class="portfolio-box" href="assets/img/portfolio/fullsize/c2.jpg"
+                            ><img class="img-fluid" src="assets/img/portfolio/thumbnails/c2.jpg" alt="" />
+                            <div class="portfolio-box-caption">
+							<!-- 2-->
+                                <div class="project-category text-white-50">Guatemala</div>
+                                <div>Flavor: strong cocoa, pleasant woody fragrance</div>
+								<div>Baking degree: medium and deep baking</div>
+								<div>Matching: macaron</div>
+								<button id="addfav2"  type="button">Add to your favorite list</button>
+                            </div></a
+                        >
+                    </div>
+                    <div class="col-lg-4 col-sm-6">
+                        <a class="portfolio-box" href="assets/img/portfolio/fullsize/c3.jpg"
+                            ><img class="img-fluid" src="assets/img/portfolio/thumbnails/c3.jpg" alt="" />
+                            <div class="portfolio-box-caption">
+							<!-- 3-->
+                                <div class="project-category text-white-50">Nicaragua</div>
+                                <div>Flavor: refreshing citrus aroma</div>
+								<div>Baking degree: Medium baking</div>
+								<div>Matching: cheese cake</div>
+								<button id="addfav3"  type="button">Add to your favorite list</button>
+                            </div></a
+                        >
+                    </div>
+                    <div class="col-lg-4 col-sm-6">
+                        <a class="portfolio-box" href="assets/img/portfolio/fullsize/c4.jpg"
+                            ><img class="img-fluid" src="assets/img/portfolio/thumbnails/c4.jpg" alt="" />
+                            <div class="portfolio-box-caption">
+							<!-- 4-->
+                                <div class="project-category text-white-50">Mandhelin</div>
+                                <div>Flavor: calm herbal aroma</div>
+								<div>Baking degree: Deep baking</div>
+								<div>Matching: salty snacks</div>
+								<button id="addfav4"  type="button">Add to your favorite list</button>
+                            </div></a
+                        >
+                    </div>
+                    <div class="col-lg-4 col-sm-6">
+                        <a class="portfolio-box" href="assets/img/portfolio/fullsize/c5.jpg"
+                            ><img class="img-fluid" src="assets/img/portfolio/thumbnails/c5.jpg" alt="" />
+                            <div class="portfolio-box-caption">
+							<!-- 5-->
+                                <div class="project-category text-white-50">Brazil</div>
+                                <div>Flavor: mellow and smooth</div>
+								<div>Baking degree: medium and deep baking</div>
+								<div>Matching: strawberry cake</div>
+								<button id="addfav5"  type="button">Add to your favorite list</button>
+                            </div></a
+                        >
+                    </div>
+                    <div class="col-lg-4 col-sm-6">
+                        <a class="portfolio-box" href="assets/img/portfolio/fullsize/c6.jpg"
+                            ><img class="img-fluid" src="assets/img/portfolio/thumbnails/c6.jpg" alt="" />
+                            <div class="portfolio-box-caption p-3">
+							<!-- 6-->
+                                <div class="project-category text-white-50">Costa Rica</div>
+                                <div>Flavor: soft and smooth</div>
+								<div>Baking degree: Medium baking</div>
+								<div>Matching: muffins</div>
+								<button id="addfav6"  type="button">Add to your favorite list</button>
+                            </div></a
+                        >
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Call to action-->
+       <div class="w3-center w3-padding-32">
+									<p id="prop1">
+									<div id="block_container">
+									<div id="bloc1">
+									<p><textarea name="body" rows="5" cols="40" id="favorite_list"></textarea></p>
+									
+									<button class="btn btn-primary" id="add">Add Comment</button>
+									<button class="btn btn-primary" id="save">Save Comment</button>
+									<!--<button class="btn btn-primary"  id="update">Update Comment</button>-->
+									</div></div>
+									</p>
+	   </div>	
+	   
+	   
+        <!-- Contact-->
+        
+        </section>
+        <!-- Footer-->
+        <footer class="bg-light py-5">
+            <div class="container"><div class="small text-center text-muted">Copyright © 2020 - Shao Zhiwen</div></div>
+        </footer>
+        <!-- Bootstrap core JS-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
+        <!-- Third party plugin JS-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="js/scripts.js"></script>
+    </body>
+</html>

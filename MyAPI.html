@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+        <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico" />
+        <!-- Font Awesome icons (free version)-->
+        <script src="https://use.fontawesome.com/releases/v5.13.0/js/all.js" crossorigin="anonymous"></script>
+        <!-- Google fonts-->
+        <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+        <link href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
+        <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
+		    <!-- Bootstrap Core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+    <link href="vendor/simple-line-icons/css/simple-line-icons.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- Custom CSS -->
+    <link href="css/stylish-portfolio.min.css" rel="stylesheet">
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="css/styles.css" rel="stylesheet" />
+	
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<script>
+$(document).ready(function(){   
+
+		var tempName;
+		tempName=localStorage.getItem("name");		
+		var name="&Email="+tempName;
+		//var jsonData={"name":tempName, "Data":addfavcar};
+		var jsonData={"user": name};
+ $.ajax({
+	url: "http://127.0.0.1:9999/findfavourlist", 
+				dataType: 'JSON',
+				type: 'POST',
+				data: JSON.stringify(jsonData),
+				success: function(result){			
+				result = JSON.stringify(result);
+				document.getElementById("div1").innerHTML = result; 
+				var contentID = document.getElementById("div1");
+				contentID.style.visibility="hidden" ? contentID.style.visibility="visible" : contentID.style.visibility="hidden";
+				}, error: function (xhr, textStatus, errorThrown) {
+      		}
+	})
+	});
+</script>
+
+	<script>
+	$(document).ready(function(){  
+
+
+
+	jsonData={"Data":findapi};
+	
+	
+         $.ajax( {  
+         "url": "http://127.0.0.1:9999/findapi",  
+         "type": "POST",  
+         "datatype": "jsonp"  
+		  data: JSON.stringify(jsonData),
+				success: function(result){
+				JSON.stringify(jsonData)=result;
+				document.getElementById(div1).innerHTML=result;
+			}, error: function (xhr, textStatus, errorThrown) {
+      	}
+	})
+	
+	 $.ajax( {  
+         "url": "http://127.0.0.1:9999/getapi",  
+         "type": "POST",  
+         "datatype": "jsonp"  
+		  data: JSON.stringify(jsonData),
+				success: function(result){
+				JSON.stringify(jsonData)=result;
+				document.getElementById(div1).innerHTML=result;
+			}, error: function (xhr, textStatus, errorThrown) {
+      	}
+	})
+
+
+</script>
+<body>
+<!-- Page content -->
+<div class="w3-content w3-padding" style="max-width:1564px">
+
+        <!-- Portfolio Grid-->
+        <section class="page-section bg-light" id="portfolio">
+            <div class="container">
+                <div class="text-center">
+                    <h2 class="section-heading text-uppercase">Api</h2>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-4 col-sm-6 mb-4">
+                        <div id="div1" class="portfolio-item"  style="visibility:hidden">
+                    </div>
+                   
+
+        <!-- Bootstrap core JS-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
+        <!-- Third party plugin JS-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+        <!-- Contact form JS-->
+        <script src="assets/mail/jqBootstrapValidation.js"></script>
+        <script src="assets/mail/contact_me.js"></script>
+        <!-- Core theme JS-->
+        <script src="js/scripts.js"></script>
+		
+ 
+
+</body>
+</html>

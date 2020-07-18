@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" id="bootstrap-css">
+
+
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+<style>
+.form-elegant .font-small {
+    font-size: 0.8rem; }
+
+.form-elegant .z-depth-1a {
+    -webkit-box-shadow: 0 2px 5px 0 rgba(55, 161, 255, 0.26), 0 4px 12px 0 rgba(121, 155, 254, 0.25);
+    box-shadow: 0 2px 5px 0 rgba(55, 161, 255, 0.26), 0 4px 12px 0 rgba(121, 155, 254, 0.25); }
+
+.form-elegant .z-depth-1-half,
+.form-elegant .btn:hover {
+    -webkit-box-shadow: 0 5px 11px 0 rgba(85, 182, 255, 0.28), 0 4px 15px 0 rgba(36, 133, 255, 0.15);
+    box-shadow: 0 5px 11px 0 rgba(85, 182, 255, 0.28), 0 4px 15px 0 rgba(36, 133, 255, 0.15); }
+
+.form-elegant .modal-header {
+    border-bottom: none; }
+
+.modal-dialog .form-elegant .btn .fab {
+    color: #2196f3!important; }
+
+.form-elegant .modal-body, .form-elegant .modal-footer {
+    font-weight: 400; }
+</style>
+
+<script>
+function startTime() {
+  var today = new Date();
+  var h = today.getHours();
+  var m = today.getMinutes();
+  var s = today.getSeconds();
+  m = checkTime(m);
+  s = checkTime(s);
+  document.getElementById('txt').innerHTML = "Time: "+
+  h + ":" + m + ":" + s;
+  var t = setTimeout(startTime, 500);
+}
+function checkTime(i) {
+  if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+  return i;
+}
+</script>
+
+<script>
+$(document).ready(function () {
+
+            $.ajax({
+                type: "POST",
+                url: "https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType=fnd&lang=en",
+                dataType: "json",
+                success: function (result, status, xhr) {
+              
+                
+				var todaytemp = result.soilTemp[0].value+ "°C";
+				//var maxtemp = result.weatherForecast[0].forecastMaxtemp.value+"C";
+				var place = result.soilTemp[0].place;
+				var time = result.soilTemp[0].recordTime;
+				
+				document.getElementById("temp").innerHTML =  "Temp: "+todaytemp;
+				document.getElementById("place").innerHTML = "Location: "+place;
+					document.getElementById("rectime").innerHTML =  "Data: "+time;
+           
+                },
+                error: function (xhr, status, error) {
+                    alert("Result: " + status + " " + error + " " + xhr.status + " " + xhr.statusText)
+                }
+            });
+        });
+ 
+
+
+</script>
+
+<script>
+$(document).ready(function(){   
+
+		var tempName;
+		tempName=localStorage.getItem("name");		
+		var name="&Email="+tempName;
+		//var jsonData={"name":tempName, "Data":addfavcar};
+		var jsonData={"user": name};
+ $.ajax({
+	url: "http://127.0.0.1:9999/findfavourlist", 
+				dataType: 'JSON',
+				type: 'POST',
+				data: JSON.stringify(jsonData),
+				success: function(result){
+				for( c=0; c<result.length; c++)
+				{
+				var div_id = "div" + (c+1);
+				document.getElementById(div_id).style.visibility="visible";
+				var result2 = "assets/img/portfolio/thumbnails/"+result[c].image;
+				var imgid = "img"+(c+1);
+				document.getElementById(imgid).src = result2;
+				var result3 = result[c].name;
+				var name_id = "coffe_name"+(c+1);
+				document.getElementById(name_id).innerHTML=result3;
+				var result4 = result[c].Flavor;
+				var flavor_id = "flavor"+(c+1);
+				document.getElementById(flavor_id).innerHTML="Flavor: "+result4;
+				var result5 = result[c].BakingDegree;
+				var degree_id = "degree"+(c+1);
+				document.getElementById(degree_id).innerHTML="Baking degree: "+result5;
+				var result6 = result[c].Matching;
+				var matching_id = "matching"+(c+1);
+				document.getElementById(matching_id).innerHTML="Matching: "+result6;
+				var result7 = result[c].Button;
+				var delete_id = "delete"+(c+1);
+				document.getElementById(delete_id).id=result7;
+				
+				}
+				
+				
+
+				}, error: function (xhr, textStatus, errorThrown) {
+      		}
+	})
+	});
+</script>
+
+<script>
+	$(document).ready(function(){   
+	 var favlist = [];
+	 var favitem = 0;
+	 
+	 var favlist2 = [];
+	 var favitem2 = 0;
+	 
+	 
+	 var favlist3 = [];
+	 var favitem3 = 0;
+	 
+	 var favlist4 = [];
+	 var favitem4 = 0;
+	 
+	 var favlist5 = [];
+	 var favitem5 = 0;
+	 
+	 var favlist6 = [];
+	 var favitem6 = 0;
+ 
+	 $("#add").click(function(){
+	 favlist[favitem] = $("#favorite_list").val();
+	 favitem +=1;
+	 localStorage.setItem("favlist", JSON.stringify(favlist));
+	 })
+	 
+	 
+         
+  $('#buttonID').click(function() {
+
+		alert($('#formID').serialize());
+    $.ajax({
+            dataType: 'jsonp',
+            jsonpCallback: '_wrapper',
+            data: $('#formID').serialize(),
+            type: 'POST',
+            url: "http://127.0.0.1:9999/member",
+            success: handleButtonResponse,
+        });
+    });
+    function handleButtonResponse(data){
+      alert(data);
+
+      var jsonObject = JSON.parse(data);
+      $('#reponseID').append( jsonObject.message );
+    }
+	
+$("#delete1").click(function(){
+		var tempName;
+		tempName=localStorage.getItem("name");		
+		var name="&Email="+tempName;
+		alert("delete1 is success, please reload page ");
+		var jsonData={"user": name};
+		 $.ajax({
+				url: "http://127.0.0.1:9999/delfavcoffe1", 
+				dataType: 'jsonp',
+				type: 'POST',
+				data: JSON.stringify(jsonData),
+				success: function(result){
+				}, error: function (xhr, textStatus, errorThrown) {
+      		}
+	});
+});
+
+$("#delete2").click(function(){
+		var tempName;
+		tempName=localStorage.getItem("name");		
+		var name="&Email="+tempName;
+		alert("delete2 is success, please reload page ");
+		var jsonData={"user": name};
+		 $.ajax({
+				url: "http://127.0.0.1:9999/delfavcoffe2", 
+				dataType: 'jsonp',
+				type: 'POST',
+				data: JSON.stringify(jsonData),
+				success: function(result){
+				}, error: function (xhr, textStatus, errorThrown) {
+      		}
+	});
+});
+
+$("#delete3").click(function(){
+		var tempName;
+		tempName=localStorage.getItem("name");		
+		var name="&Email="+tempName;
+		alert("delete3 is success, please reload page ");
+		var jsonData={"user": name};
+		 $.ajax({
+				url: "http://127.0.0.1:9999/delfavcoffe3", 
+				dataType: 'jsonp',
+				type: 'POST',
+				data: JSON.stringify(jsonData),
+				success: function(result){
+				}, error: function (xhr, textStatus, errorThrown) {
+      		}
+	});
+});
+
+$("#delete4").click(function(){
+		var tempName;
+		tempName=localStorage.getItem("name");		
+		var name="&Email="+tempName;
+		alert("delete4 is success, please reload page ");
+		var jsonData={"user": name};
+		 $.ajax({
+				url: "http://127.0.0.1:9999/delfavcoffe4", 
+				dataType: 'jsonp',
+				type: 'POST',
+				data: JSON.stringify(jsonData),
+				success: function(result){
+				}, error: function (xhr, textStatus, errorThrown) {
+      		}
+	});
+});
+
+$("#delete5").click(function(){
+		var tempName;
+		tempName=localStorage.getItem("name");		
+		var name="&Email="+tempName;
+		alert("delete5 is success, please reload page ");
+		var jsonData={"user": name};
+		 $.ajax({
+				url: "http://127.0.0.1:9999/delfavcoffe5", 
+				dataType: 'jsonp',
+				type: 'POST',
+				data: JSON.stringify(jsonData),
+				success: function(result){
+				}, error: function (xhr, textStatus, errorThrown) {
+      		}
+	});
+});
+
+$("#delete6").click(function(){
+		var tempName;
+		tempName=localStorage.getItem("name");		
+		var name="&Email="+tempName;	
+		alert("delete6 is success, please reload page ");
+		var jsonData={"user": name};
+		 $.ajax({
+				url: "http://127.0.0.1:9999/delfavcoffe6", 
+				dataType: 'jsonp',
+				type: 'POST',
+				data: JSON.stringify(jsonData),
+				success: function(result){
+				}, error: function (xhr, textStatus, errorThrown) {
+      		}
+	});
+});
+
+
+
+//1
+$("#ADD_flavor1").click(function(){
+	 favlist[favitem] = $("#input_flavor1").val();
+	 favitem +=1;
+	 alert(JSON.stringify(favlist));
+	 localStorage.setItem("favlist", JSON.stringify(favlist));
+	 });
+	 
+	$("#edit_flavor1").click(function(){
+	alert("Updated");
+	var tempName, tempfavlist;
+	tempName=localStorage.getItem("name");
+	tempfavlist=localStorage.getItem("favlist");
+		
+	var myfavdata="&Email="+tempName+"\"}" + "&favlist="+tempfavlist;
+	$.ajax({
+	type: "POST",
+	data:  myfavdata ,
+	url: "http://127.0.0.1:9999/editFlavor1",
+	success: function (result) {
+		}, error: function (xhr, textStatus, errorThrown) {
+		}
+	});
+});
+
+$("#ADD_degree1").click(function(){
+	 favlist[favitem] = $("#input_degree1").val();
+	 favitem +=1;
+	 alert(JSON.stringify(favlist));
+	 localStorage.setItem("favlist", JSON.stringify(favlist));
+	 });
+	 
+	$("#edit_degree1").click(function(){
+	alert("Updated");
+	var tempName, tempfavlist;
+	tempName=localStorage.getItem("name");
+	tempfavlist=localStorage.getItem("favlist");
+		
+	var myfavdata="&Email="+tempName+"\"}" + "&favlist="+tempfavlist;
+	$.ajax({
+	type: "POST",
+	data:  myfavdata ,
+	url: "http://127.0.0.1:9999/editdegree1",
+	success: function (result) {
+		}, error: function (xhr, textStatus, errorThrown) {
+
+		}
+	});
+});
+
+$("#ADD_matching1").click(function(){
+	 favlist[favitem] = $("#input_matching1").val();
+	 favitem +=1;
+	 alert(JSON.stringify(favlist));
+	 localStorage.setItem("favlist", JSON.stringify(favlist));
+	 });
+	 
+	$("#edit_matching1").click(function(){
+	alert("Updated");
+	var tempName, tempfavlist;
+	tempName=localStorage.getItem("name");
+	tempfavlist=localStorage.getItem("favlist");
+		
+	var myfavdata="&Email="+tempName+"\"}" + "&favlist="+tempfavlist;
+	$.ajax({
+	type: "POST",
+	data:  myfavdata ,
+	url: "http://127.0.0.1:9999/editmatching1",
+	success: function (result) {
+		}, error: function (xhr, textStatus, errorThrown) {
+		}
+	});
+});
+//2
+$("#ADD_flavor2").click(function(){
+	 favlist[favitem] = $("#input_flavor2").val();
+	 favitem +=1;
+	 alert(JSON.stringify(favlist));
+	 localStorage.setItem("favlist", JSON.stringify(favlist));
+	 });
+	 
+	$("#edit_flavor2").click(function(){
+	alert("Updated");
+	var tempName, tempfavlist;
+	tempName=localStorage.getItem("name");
+	tempfavlist=localStorage.getItem("favlist");
+		
+	var myfavdata="&Email="+tempName+"\"}" + "&favlist="+tempfavlist;
+	$.ajax({
+	type: "POST",
+	data:  myfavdata ,
+	url: "http://127.0.0.1:9999/editFlavor2",
+	success: function (result) {
+		}, error: function (xhr, textStatus, errorThrown) {
+		}
+	});
+});
+
+$("#ADD_degree2").click(function(){
+	 favlist[favitem] = $("#input_degree2").val();
+	 favitem +=1;
+	 alert(JSON.stringify(favlist));
+	 localStorage.setItem("favlist", JSON.stringify(favlist));
+	 });
+	 
+	$("#edit_degree2").click(function(){
+	alert("Updated");
+	var tempName, tempfavlist;
+	tempName=localStorage.getItem("name");
+	tempfavlist=localStorage.getItem("favlist");
+		
+	var myfavdata="&Email="+tempName+"\"}" + "&favlist="+tempfavlist;
+	$.ajax({
+	type: "POST",
+	data:  myfavdata ,
+	url: "http://127.0.0.1:9999/editdegree2",
+	success: function (result) {
+		}, error: function (xhr, textStatus, errorThrown) {
+
+		}
+	});
+});
+
+$("#ADD_matching2").click(function(){
+	 favlist[favitem] = $("#input_matching2").val();
+	 favitem +=1;
+	 alert(JSON.stringify(favlist));
+	 localStorage.setItem("favlist", JSON.stringify(favlist));
+	 });
+	 
+	$("#edit_matching2").click(function(){
+	alert("Updated");
+	var tempName, tempfavlist;
+	tempName=localStorage.getItem("name");
+	tempfavlist=localStorage.getItem("favlist");
+		
+	var myfavdata="&Email="+tempName+"\"}" + "&favlist="+tempfavlist;
+	$.ajax({
+	type: "POST",
+	data:  myfavdata ,
+	url: "http://127.0.0.1:9999/editmatching2",
+	success: function (result) {
+		}, error: function (xhr, textStatus, errorThrown) {
+		}
+	});
+});
+//3
+$("#ADD_flavor3").click(function(){
+	 favlist[favitem] = $("#input_flavor3").val();
+	 favitem +=1;
+	 alert(JSON.stringify(favlist));
+	 localStorage.setItem("favlist", JSON.stringify(favlist));
+	 });
+	 
+	$("#edit_flavor3").click(function(){
+	alert("Updated");
+	var tempName, tempfavlist;
+	tempName=localStorage.getItem("name");
+	tempfavlist=localStorage.getItem("favlist");
+		
+	var myfavdata="&Email="+tempName+"\"}" + "&favlist="+tempfavlist;
+	$.ajax({
+	type: "POST",
+	data:  myfavdata ,
+	url: "http://127.0.0.1:9999/editFlavor3",
+	success: function (result) {
+		}, error: function (xhr, textStatus, errorThrown) {
+		}
+	});
+});
+
+$("#ADD_degree3").click(function(){
+	 favlist[favitem] = $("#input_degree3").val();
+	 favitem +=1;
+	 alert(JSON.stringify(favlist));
+	 localStorage.setItem("favlist", JSON.stringify(favlist));
+	 });
+	 
+	$("#edit_degree3").click(function(){
+	alert("Updated");
+	var tempName, tempfavlist;
+	tempName=localStorage.getItem("name");
+	tempfavlist=localStorage.getItem("favlist");
+		
+	var myfavdata="&Email="+tempName+"\"}" + "&favlist="+tempfavlist;
+	$.ajax({
+	type: "POST",
+	data:  myfavdata ,
+	url: "http://127.0.0.1:9999/editdegree3",
+	success: function (result) {
+		}, error: function (xhr, textStatus, errorThrown) {
+
+		}
+	});
+});
+
+$("#ADD_matching3").click(function(){
+	 favlist[favitem] = $("#input_matching3").val();
+	 favitem +=1;
+	 alert(JSON.stringify(favlist));
+	 localStorage.setItem("favlist", JSON.stringify(favlist));
+	 });
+	 
+	$("#edit_matching3").click(function(){
+	alert("Updated");
+	var tempName, tempfavlist;
+	tempName=localStorage.getItem("name");
+	tempfavlist=localStorage.getItem("favlist");
+		
+	var myfavdata="&Email="+tempName+"\"}" + "&favlist="+tempfavlist;
+	$.ajax({
+	type: "POST",
+	data:  myfavdata ,
+	url: "http://127.0.0.1:9999/editmatching3",
+	success: function (result) {
+		}, error: function (xhr, textStatus, errorThrown) {
+		}
+	});
+});
+//4
+$("#ADD_flavor4").click(function(){
+	 favlist[favitem] = $("#input_flavor4").val();
+	 favitem +=1;
+	 alert(JSON.stringify(favlist));
+	 localStorage.setItem("favlist", JSON.stringify(favlist));
+	 });
+	 
+	$("#edit_flavor4").click(function(){
+	alert("Updated");
+	var tempName, tempfavlist;
+	tempName=localStorage.getItem("name");
+	tempfavlist=localStorage.getItem("favlist");
+		
+	var myfavdata="&Email="+tempName+"\"}" + "&favlist="+tempfavlist;
+	$.ajax({
+	type: "POST",
+	data:  myfavdata ,
+	url: "http://127.0.0.1:9999/editFlavor4",
+	success: function (result) {
+		}, error: function (xhr, textStatus, errorThrown) {
+		}
+	});
+});
+
+$("#ADD_degree4").click(function(){
+	 favlist[favitem] = $("#input_degree4").val();
+	 favitem +=1;
+	 alert(JSON.stringify(favlist));
+	 localStorage.setItem("favlist", JSON.stringify(favlist));
+	 });
+	 
+	$("#edit_degree4").click(function(){
+	alert("Updated");
+	var tempName, tempfavlist;
+	tempName=localStorage.getItem("name");
+	tempfavlist=localStorage.getItem("favlist");
+		
+	var myfavdata="&Email="+tempName+"\"}" + "&favlist="+tempfavlist;
+	$.ajax({
+	type: "POST",
+	data:  myfavdata ,
+	url: "http://127.0.0.1:9999/editdegree4",
+	success: function (result) {
+		}, error: function (xhr, textStatus, errorThrown) {
+
+		}
+	});
+});
+
+$("#ADD_matching4").click(function(){
+	 favlist[favitem] = $("#input_matching4").val();
+	 favitem +=1;
+	 alert(JSON.stringify(favlist));
+	 localStorage.setItem("favlist", JSON.stringify(favlist));
+	 });
+	 
+	$("#edit_matching4").click(function(){
+	alert("Updated");
+	var tempName, tempfavlist;
+	tempName=localStorage.getItem("name");
+	tempfavlist=localStorage.getItem("favlist");
+		
+	var myfavdata="&Email="+tempName+"\"}" + "&favlist="+tempfavlist;
+	$.ajax({
+	type: "POST",
+	data:  myfavdata ,
+	url: "http://127.0.0.1:9999/editmatching4",
+	success: function (result) {
+		}, error: function (xhr, textStatus, errorThrown) {
+		}
+	});
+});
+//5
+$("#ADD_flavor5").click(function(){
+	 favlist[favitem] = $("#input_flavor5").val();
+	 favitem +=1;
+	 alert(JSON.stringify(favlist));
+	 localStorage.setItem("favlist", JSON.stringify(favlist));
+	 });
+	 
+	$("#edit_flavor5").click(function(){
+	alert("Updated");
+	var tempName, tempfavlist;
+	tempName=localStorage.getItem("name");
+	tempfavlist=localStorage.getItem("favlist");
+		
+	var myfavdata="&Email="+tempName+"\"}" + "&favlist="+tempfavlist;
+	$.ajax({
+	type: "POST",
+	data:  myfavdata ,
+	url: "http://127.0.0.1:9999/editFlavor5",
+	success: function (result) {
+		}, error: function (xhr, textStatus, errorThrown) {
+		}
+	});
+});
+
+$("#ADD_degree5").click(function(){
+	 favlist[favitem] = $("#input_degree5").val();
+	 favitem +=1;
+	 alert(JSON.stringify(favlist));
+	 localStorage.setItem("favlist", JSON.stringify(favlist));
+	 });
+	 
+	$("#edit_degree5").click(function(){
+	alert("Updated");
+	var tempName, tempfavlist;
+	tempName=localStorage.getItem("name");
+	tempfavlist=localStorage.getItem("favlist");
+		
+	var myfavdata="&Email="+tempName+"\"}" + "&favlist="+tempfavlist;
+	$.ajax({
+	type: "POST",
+	data:  myfavdata ,
+	url: "http://127.0.0.1:9999/editdegree5",
+	success: function (result) {
+		}, error: function (xhr, textStatus, errorThrown) {
+
+		}
+	});
+});
+
+$("#ADD_matching5").click(function(){
+	 favlist[favitem] = $("#input_matching5").val();
+	 favitem +=1;
+	 alert(JSON.stringify(favlist));
+	 localStorage.setItem("favlist", JSON.stringify(favlist));
+	 });
+	 
+	$("#edit_matching5").click(function(){
+	alert("Updated");
+	var tempName, tempfavlist;
+	tempName=localStorage.getItem("name");
+	tempfavlist=localStorage.getItem("favlist");
+		
+	var myfavdata="&Email="+tempName+"\"}" + "&favlist="+tempfavlist;
+	$.ajax({
+	type: "POST",
+	data:  myfavdata ,
+	url: "http://127.0.0.1:9999/editmatching5",
+	success: function (result) {
+		}, error: function (xhr, textStatus, errorThrown) {
+		}
+	});
+});
+
+$("#ADD_flavor6").click(function(){
+	 favlist[favitem] = $("#input_flavor6").val();
+	 favitem +=1;
+	 alert(JSON.stringify(favlist));
+	 localStorage.setItem("favlist", JSON.stringify(favlist));
+	 });
+	 
+	$("#edit_flavor6").click(function(){
+	alert("Updated");
+	var tempName, tempfavlist;
+	tempName=localStorage.getItem("name");
+	tempfavlist=localStorage.getItem("favlist");
+		
+	var myfavdata="&Email="+tempName+"\"}" + "&favlist="+tempfavlist;
+	$.ajax({
+	type: "POST",
+	data:  myfavdata ,
+	url: "http://127.0.0.1:9999/editFlavor6",
+	success: function (result) {
+		}, error: function (xhr, textStatus, errorThrown) {
+		}
+	});
+});
+
+$("#ADD_degree6").click(function(){
+	 favlist[favitem] = $("#input_degree6").val();
+	 favitem +=1;
+	 alert(JSON.stringify(favlist));
+	 localStorage.setItem("favlist", JSON.stringify(favlist));
+	 });
+	 
+	$("#edit_degree6").click(function(){
+	alert("Updated");
+	var tempName, tempfavlist;
+	tempName=localStorage.getItem("name");
+	tempfavlist=localStorage.getItem("favlist");
+		
+	var myfavdata="&Email="+tempName+"\"}" + "&favlist="+tempfavlist;
+	$.ajax({
+	type: "POST",
+	data:  myfavdata ,
+	url: "http://127.0.0.1:9999/editdegree6",
+	success: function (result) {
+		}, error: function (xhr, textStatus, errorThrown) {
+
+		}
+	});
+});
+
+$("#ADD_matching6").click(function(){
+	 favlist[favitem] = $("#input_matching6").val();
+	 favitem +=1;
+	 alert(JSON.stringify(favlist));
+	 localStorage.setItem("favlist", JSON.stringify(favlist));
+	 });
+	 
+	$("#edit_matching6").click(function(){
+	alert("Updated");
+	var tempName, tempfavlist;
+	tempName=localStorage.getItem("name");
+	tempfavlist=localStorage.getItem("favlist");
+		
+	var myfavdata="&Email="+tempName+"\"}" + "&favlist="+tempfavlist;
+	$.ajax({
+	type: "POST",
+	data:  myfavdata ,
+	url: "http://127.0.0.1:9999/editmatching6",
+	success: function (result) {
+		}, error: function (xhr, textStatus, errorThrown) {
+		}
+	});
+});
+
+		$("#clearfav").click(function(){
+		var tempName;
+		tempName=localStorage.getItem("name");		
+		var name="&Email="+tempName;
+		
+		
+		var jsonData={"user": name};
+		 $.ajax({
+				url: "http://127.0.0.1:9999/deleteall", 
+				dataType: 'jsonp',
+				type: 'POST',
+				data: JSON.stringify(jsonData),
+				success: function(result){
+				
+				}, error: function (xhr, textStatus, errorThrown) {
+      		}
+	});
+	window.location.reload();
+	});
+	
+	$("#show").click(function(){
+        var tempName;
+		tempName=localStorage.getItem("name");
+		
+		var name="&Email="+tempName;
+        
+        $.ajax({
+          url: "http://127.0.0.1:9999/readfavourlist",          
+          type: "POST",
+          data: name ,
+          success: function (result) {
+            result = JSON.parse(result);
+            $("#favlist").empty();
+            $.each(result, function(i,fav){
+			  var favourite = fav.favlist;
+              favlist2[favitem2] = favourite;
+			  favitem+=1;
+			  $("#favlist").append('<div class="container"><div class="row"><div class="col-1"></div><font color="Orange"><p>'+ favourite +'</p></font></div></div>');
+			});
+            console.log(result);
+            //alert(result);
+          },
+          error: function(result){
+              console.log(result);
+            }
+        });
+        
+		  });
+	 $("#Delete").click(function(){
+		var tempName,tempdelfav;
+		tempName = localStorage.getItem("name");
+		tempdelfav = $("#favorite_list").val();
+		var delData="&Email="+tempName+"&favlist="+tempdelfav;
+
+        $.ajax({
+           url: "http://127.0.0.1:9999/removefavourlist",          
+           type: "POST",
+           data: delData ,
+           success: function (result) {
+			 if (result == "OK"){
+			 alert("the data was delete");
+            }
+            else{
+             alert(result);
+             console.log(result);
+			 }
+           },
+           error: function(result){
+               console.log(result);
+             }
+         });
+});
+
+         
+
+
+
+
+	
+});
+
+</script>
+
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Creative - Start Bootstrap Theme</title>
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico" />
+        <!-- Font Awesome icons (free version)-->
+        <script src="https://use.fontawesome.com/releases/v5.13.0/js/all.js" crossorigin="anonymous"></script>
+        <!-- Google fonts-->
+        <link href="https://fonts.googleapis.com/css?family=Merriweather+Sans:400,700" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic" rel="stylesheet" type="text/css" />
+        <!-- Third party plugin CSS-->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.min.css" rel="stylesheet" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="css/styles.css" rel="stylesheet" />
+    </head>
+	
+
+<!-- Modal -->
+
+
+    <body id="page-top">
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
+            <div class="container">
+                <a class="navbar-brand js-scroll-trigger" href="#page-top">Coffee Beans</a><button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ml-auto my-2 my-lg-0">
+                        <!--<li class="nav-item"><a class="nav-link js-scroll-trigger" href="#about">About</a></li>-->
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="/member_mainpage">All beans</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#portfolio">MyFavoriteBeans</a></li>
+						<li class="nav-item"><a class="nav-link js-scroll-trigger" href="/API">API</a></li>
+						<li class="nav-item"><a class="nav-link js-scroll-trigger" href="/MyAPI">MyAPI</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" id="logout">Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- Masthead-->
+        <header class="masthead">
+            <div class="container h-100">
+                <div class="row h-100 align-items-center justify-content-center text-center">
+                    <div class="col-lg-10 align-self-end">
+                        <h1 class="text-uppercase text-white font-weight-bold">Your Favorite Coffee beans</h1>
+                        <hr class="divider my-4" />
+                    </div>
+                    <div class="col-lg-8 align-self-baseline">
+                        <p class="text-white-75 font-weight-light mb-5">Each coffee bean from the production area has a special flavor, and then through different roasting degrees, it can show a wonderful taste!</p>
+                        <p class="text-white-75 font-weight-light mb-5">Let's record your favorite coffee beans!</p>
+                    </div>
+					      <div class="col-lg-8 align-self-baseline">
+                        <p class="text-white-75 font-weight-light mb-5" id="temp"></p>
+                        <p class="text-white-75 font-weight-light mb-5"id="place"></p>
+						<p class="text-white-75 font-weight-light mb-5"id="rectime"></p>
+						<p class="text-white-75 font-weight-light mb-5"id="txt"></p>
+						<body onload="startTime()">
+                        
+                    </div>
+
+                </div>
+            </div>
+        </header>
+
+
+        <!-- About-->
+        
+        <!-- Services-->
+        <button id="clearfav" type="button" style='display: block;
+margin-left: auto; margin-right: auto;'>Delete all</button>
+        <!-- Portfolio-->
+        <div id="portfolio">
+            <div class="container-fluid p-0">
+                <div class="row no-gutters">
+                    
+					<div class="col-lg-4 col-sm-6" id="div1" style="visibility:hidden">
+                        <a class="portfolio-box" href="assets/img/portfolio/fullsize/c1.jpg"
+                            ><img class="img-fluid" id="img1" src="assets/img/portfolio/thumbnails/c1.jpg" alt="" />
+                            <div class="portfolio-box-caption">
+							<!-- 1-->
+                                <div class="project-category text-white-50" id="coffe_name1">AAA</div>
+                                <div id="flavor1">AAA</div>
+								<div id="degree1">AAA</div>
+								<div id="matching1">AAA</div>
+								<button id="delete1" type="button">Delete</button>
+                            </div></a>
+							<table style="width:100%" id="NewMovieTable">
+							<tr>
+							    <td>Flavor:</td>
+								<td><input type= "text" id="input_flavor1"><button id="ADD_flavor1" type="button">ADD</button><button id="edit_flavor1" type="button">Edit</button></td>
+							</tr>
+							<tr>
+							    <td>BakingDegree:</td>
+								<td><input type= "text" id="input_degree1"><button id="ADD_degree1" type="button">ADD</button><button id="edit_degree1" type="button">Edit</button></td>
+							</tr>
+							<tr>
+							    <td>Matching:</td>
+								<td><input type= "text" id="input_matching1"><button id="ADD_matching1" type="button">ADD</button><button id="edit_matching1" type="button">Edit</button></td>
+							</tr>
+							</table>
+							
+                    </div>
+                    <div class="col-lg-4 col-sm-6" id="div2" style="visibility:hidden">
+                        <a class="portfolio-box" href="assets/img/portfolio/fullsize/c2.jpg"
+                            ><img class="img-fluid" id="img2" src="assets/img/portfolio/thumbnails/c2.jpg" alt="" />
+                            <div class="portfolio-box-caption">
+							<!-- 2-->
+                                <div class="project-category text-white-50" id="coffe_name2">B</div>
+                                <div id="flavor2">B</div>
+								<div id="degree2">B</div>
+								<div id="matching2">B</div>
+								<button id="delete2" type="button">Delete</button>
+                            </div></a>
+							<table style="width:100%" id="NewMovieTable">
+							<tr>
+							    <td>Flavor:</td>
+								<td><input type= "text" id="input_flavor2"><button id="ADD_flavor2" type="button">ADD</button><button id="edit_flavor2" type="button">Edit</button></td>
+							</tr>
+							<tr>
+							    <td>BakingDegree:</td>
+								<td><input type= "text" id="input_degree2"><button id="ADD_degree2" type="button">ADD</button><button id="edit_degree2" type="button">Edit</button></td>
+							</tr>
+							<tr>
+							    <td>Matching:</td>
+								<td><input type= "text" id="input_matching2"><button id="ADD_matching2" type="button">ADD</button><button id="edit_matching2" type="button">Edit</button></td>
+							</tr>
+							</table>
+                        
+                    </div>
+                    <div class="col-lg-4 col-sm-6" id="div3" style="visibility:hidden">
+                        <a class="portfolio-box" href="assets/img/portfolio/fullsize/c3.jpg"
+                            ><img class="img-fluid" id="img3" src="assets/img/portfolio/thumbnails/c3.jpg" alt="" />
+                            <div class="portfolio-box-caption">
+							<!-- 3-->
+                                <div class="project-category text-white-50" id="coffe_name3">C</div>
+                                <div id="flavor3">C</div>
+								<div id="degree3">C</div>
+								<div id="matching3">C</div>
+								<button id="delete3" type="button">Delete</button>
+                            </div></a>
+							<table style="width:100%" id="NewMovieTable">
+							<tr>
+							    <td>Flavor:</td>
+								<td><input type= "text" id="input_flavor3"><button id="ADD_flavor3" type="button">ADD</button><button id="edit_flavor3" type="button">Edit</button></td>
+							</tr>
+							<tr>
+							    <td>BakingDegree:</td>
+								<td><input type= "text" id="input_degree3"><button id="ADD_degree3" type="button">ADD</button><button id="edit_degree3" type="button">Edit</button></td>
+							</tr>
+							<tr>
+							    <td>Matching:</td>
+								<td><input type= "text" id="input_matching3"><button id="ADD_matching3" type="button">ADD</button><button id="edit_matching3" type="button">Edit</button></td>
+							</tr>
+							</table>
+                        
+                    </div>
+                    <div class="col-lg-4 col-sm-6" id="div4" style="visibility:hidden">
+                        <a class="portfolio-box" href="assets/img/portfolio/fullsize/c4.jpg"
+                            ><img class="img-fluid" id="img4" src="assets/img/portfolio/thumbnails/c4.jpg" alt="" />
+                            <div class="portfolio-box-caption">
+							<!-- 4-->
+                                <div class="project-category text-white-50" id="coffe_name4">D</div>
+                                <div id="flavor4">D</div>
+								<div id="degree4">D</div>
+								<div id="matching4">D</div>
+								<button id="delete4" type="button">Delete</button>
+                            </div></a>
+							<table style="width:100%" id="NewMovieTable">
+							<tr>
+							    <td>Flavor:</td>
+								<td><input type= "text" id="input_flavor4"><button id="ADD_flavor4" type="button">ADD</button><button id="edit_flavor4" type="button">Edit</button></td>
+							</tr>
+							<tr>
+							    <td>BakingDegree:</td>
+								<td><input type= "text" id="input_degree4"><button id="ADD_degree4" type="button">ADD</button><button id="edit_degree4" type="button">Edit</button></td>
+							</tr>
+							<tr>
+							    <td>Matching:</td>
+								<td><input type= "text" id="input_matching4"><button id="ADD_matching4" type="button">ADD</button><button id="edit_matching4" type="button">Edit</button></td>
+							</tr>
+							</table>
+                        
+                    </div>
+                    <div class="col-lg-4 col-sm-6" id="div5" style="visibility:hidden">
+                        <a class="portfolio-box" href="assets/img/portfolio/fullsize/c5.jpg"
+                            ><img class="img-fluid" id="img5" src="assets/img/portfolio/thumbnails/c5.jpg" alt="" />
+                            <div class="portfolio-box-caption">
+							<!-- 5-->
+                                <div class="project-category text-white-50" id="coffe_name5">E</div>
+                                <div id="flavor5">E</div>
+								<div id="degree5">E</div>
+								<div id="matching5">E</div>
+								<button id="delete5" type="button">Delete</button>
+                            </div></a>
+							<table style="width:100%" id="NewMovieTable">
+							<tr>
+							    <td>Flavor:</td>
+								<td><input type= "text" id="input_flavor5"><button id="ADD_flavor5" type="button">ADD</button><button id="edit_flavor5" type="button">Edit</button></td>
+							</tr>
+							<tr>
+							    <td>BakingDegree:</td>
+								<td><input type= "text" id="input_degree5"><button id="ADD_degree5" type="button">ADD</button><button id="edit_degree5" type="button">Edit</button></td>
+							</tr>
+							<tr>
+							    <td>Matching:</td>
+								<td><input type= "text" id="input_matching5"><button id="ADD_matching5" type="button">ADD</button><button id="edit_matching5" type="button">Edit</button></td>
+							</tr>
+							</table>
+                        
+                    </div>
+                    <div class="col-lg-4 col-sm-6" id="div6" style="visibility:hidden">
+                        <a class="portfolio-box" href="assets/img/portfolio/fullsize/c6.jpg"
+                            ><img class="img-fluid" id="img6" src="assets/img/portfolio/thumbnails/c6.jpg" alt="" />
+                            <div class="portfolio-box-caption p-3">
+							<!-- 6-->
+                                <div class="project-category text-white-50" id="coffe_name6">F</div>
+                                <div id="flavor6">F</div>
+								<div id="degree6">F</div>
+								<div id="matching6">F</div>
+								<button id="delete6" type="button">Delete</button>
+                            </div></a>
+							<table style="width:100%" id="NewMovieTable">
+							<tr>
+							    <td>Flavor:</td>
+								<td><input type= "text" id="input_flavor6"><button id="ADD_flavor6" type="button">ADD</button><button id="edit_flavor6" type="button">Edit</button></td>
+							</tr>
+							<tr>
+							    <td>BakingDegree:</td>
+								<td><input type= "text" id="input_degree6"><button id="ADD_degree6" type="button">ADD</button><button id="edit_degree6" type="button">Edit</button></td>
+							</tr>
+							<tr>
+							    <td>Matching:</td>
+								<td><input type= "text" id="input_matching6"><button id="ADD_matching6" type="button">ADD</button><button id="edit_matching6" type="button">Edit</button></td>
+							</tr>
+							</table>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Call to action-->
+      <div>	
+
+									<button id="show" style=' display: block;
+margin-left: auto; margin-right: auto;'>Show Comment</button>
+									
+									<div id="favlist" ></div>
+									<!-- test  -->
+									<div id="favlist2"></div>
+									</div>
+        <!-- Contact-->
+        
+        </section>
+        <!-- Footer-->
+        <footer class="bg-light py-5">
+            <div class="container"><div class="small text-center text-muted">Copyright © 2020 - Shao Zhiwen</div></div>
+        </footer>
+        <!-- Bootstrap core JS-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
+        <!-- Third party plugin JS-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="js/scripts.js"></script>
+    </body>
+</html>

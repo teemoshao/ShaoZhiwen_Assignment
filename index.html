@@ -1,0 +1,376 @@
+﻿<!DOCTYPE html>
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" id="bootstrap-css">
+
+
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+<style>
+.form-elegant .font-small {
+    font-size: 0.8rem; }
+
+.form-elegant .z-depth-1a {
+    -webkit-box-shadow: 0 2px 5px 0 rgba(55, 161, 255, 0.26), 0 4px 12px 0 rgba(121, 155, 254, 0.25);
+    box-shadow: 0 2px 5px 0 rgba(55, 161, 255, 0.26), 0 4px 12px 0 rgba(121, 155, 254, 0.25); }
+
+.form-elegant .z-depth-1-half,
+.form-elegant .btn:hover {
+    -webkit-box-shadow: 0 5px 11px 0 rgba(85, 182, 255, 0.28), 0 4px 15px 0 rgba(36, 133, 255, 0.15);
+    box-shadow: 0 5px 11px 0 rgba(85, 182, 255, 0.28), 0 4px 15px 0 rgba(36, 133, 255, 0.15); }
+
+.form-elegant .modal-header {
+    border-bottom: none; }
+
+.modal-dialog .form-elegant .btn .fab {
+    color: #2196f3!important; }
+
+.form-elegant .modal-body, .form-elegant .modal-footer {
+    font-weight: 400; }
+</style>
+
+<script>
+
+$(document).ready(function(){   
+	// handle button clicks         
+  $('#buttonID').click(function() {
+		// make an ajax call
+		alert($('#formID').serialize());
+    $.ajax({
+            dataType: 'jsonp',
+            jsonpCallback: '_wrapper',
+            data: $('#formID').serialize(),
+            type: 'POST',
+            url: "http://127.0.0.1:9999/login",
+            success: handleButtonResponse,
+        });
+    });
+    function handleButtonResponse(data){
+      alert(data);
+      // parse the json string
+      var jsonObject = JSON.parse(data);
+      $('#reponseID').append( jsonObject.message );
+    }
+	
+	
+$("#SignInButton").click(function(){
+
+            var LoginuserName=$("#LoginEmail").val();
+            var LoginPassword=$("#LoginPass").val();
+
+            	var mydata="&LoginEmail="+LoginuserName+"&LoginPass="+LoginPassword;
+            
+            if(LoginuserName==""){
+               alert("Please enter username");
+               return;
+            }
+			
+			if(LoginPassword==""){
+               alert("Please enter password");
+               return;
+            }
+            
+
+           
+    else{
+       			$.ajax({
+				url: "http://127.0.0.1:9999/login", 
+				type: 'POST',
+				data: mydata,
+				success: function(result){
+				if (result == "fail") {
+					alert("Not have this user, please check your username");
+					}else{
+					alert("Login success");
+					
+					localStorage.setItem("name", result);
+					window.location.href = "http://127.0.0.1:9999/member_mainpage";
+					}
+					}, error: function (xhr, textStatus, errorThrown) {
+						alert("Login failed, please check your username and password");
+						console.log(textStatus);
+
+			
+      		}
+				});
+			}
+	});
+});
+
+</script>
+
+<script>
+$(document).ready(function(){   
+	// handle button clicks         
+  $('#buttonID').click(function() {
+		// make an ajax call
+		alert($('#formID').serialize());
+    $.ajax({
+            dataType: 'jsonp',
+            jsonpCallback: '_wrapper',
+            data: $('#formID').serialize(),
+            type: 'POST',
+            url: "http://127.0.0.1:9999/register",
+            success: handleButtonResponse,
+        });
+    });
+    function handleButtonResponse(data){
+      alert(data);
+      // parse the json string
+      var jsonObject = JSON.parse(data);
+      $('#reponseID').append( jsonObject.message );
+    }
+
+
+
+     $("#send").click(function(){
+     
+            var RegisName=$("#RegisEmail").val();
+            var RegisPassword=$("#RegisPass").val();
+            var RegisPassword2=$("#RegisPass2").val();
+            
+            var mydata="&Email="+RegisName+"&password="+RegisPassword+"&SignUpRePassword="+RegisPassword2;
+            if(RegisName==""){
+               alert("Please enter your email");
+               return;
+            }
+			
+			if(/[a-z0-9._%+-]+@hotmail.com/.test(RegisName) == false)
+			{
+				alert("Email must followed by an @hotmail.com");
+				return;
+			}
+			
+			if(RegisPassword==""){
+               alert("Please enter password");
+               return;
+            }
+			
+			if(RegisPassword2==""){
+               alert("Please enter password again");
+               return;
+            }
+			
+			if(RegisPassword != RegisPassword2){
+			alert("Please enter the same password");
+			return;
+			}
+   
+		 else{
+        $.ajax({
+				url: "http://127.0.0.1:9999/register", 
+				type: 'POST',
+				data: mydata,
+				success: function(result){
+					alert("Registration success");
+					alert("Thanks for creating an account, your Email is: " + SignUpEmail + "and password is: "+ SignUpPassword + ". Enjoy!");
+
+					}, error: function (xhr, textStatus, errorThrown) {
+						alert("Registration failed, please try again with other Email");
+						console.log(textStatus);
+      		}
+				});
+			}
+	});
+});
+</script>
+
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Creative - Start Bootstrap Theme</title>
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico" />
+        <!-- Font Awesome icons (free version)-->
+        <script src="https://use.fontawesome.com/releases/v5.13.0/js/all.js" crossorigin="anonymous"></script>
+        <!-- Google fonts-->
+        <link href="https://fonts.googleapis.com/css?family=Merriweather+Sans:400,700" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic" rel="stylesheet" type="text/css" />
+        <!-- Third party plugin CSS-->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.min.css" rel="stylesheet" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="css/styles.css" rel="stylesheet" />
+    </head>
+	<!-- Login -->
+	<!-- Modal -->
+<div class="modal fade" id="loginForm" tabindex="-1" role="dialog" aria-labelledby="Form-SignIn"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <!--Content-->
+    <div class="modal-content form-elegant">
+      <!--Header-->
+      <div class="modal-header text-center">
+        <h3 class="modal-title w-100 dark-grey-text font-weight-bold my-3" id="myModalLabel"><strong>Sign in</strong></h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <!--Body-->
+      <div class="modal-body mx-4">
+        <!--Body-->
+        <div class="md-form mb-5">
+		  <i class="fas fa-envelope prefix"></i>
+		  <label data-error="wrong" data-success="right" for="Form-email1">Your email</label>
+          <input type="email" id="LoginEmail" class="form-control validate">
+        </div>
+
+        <div class="md-form pb-3">
+		  <i class="fas fa-lock prefix"></i>
+		  <label data-error="wrong" data-success="right" for="Form-pass1">Your password</label>
+          <input type="password" id="LoginPass" class="form-control validate">
+          <p class="font-small blue-text d-flex justify-content-end">Forgot <a href="#" class="blue-text ml-1">
+              Password?</a></p>
+        </div>
+
+        <div class="text-center mb-3">
+          <button type="button" id="SignInButton" class="btn blue-gradient btn-block btn-rounded z-depth-1a" data-dismiss="modal" aria-label="Close">Sign in</button>
+        </div>
+        <p class="font-small dark-grey-text text-right d-flex justify-content-center mb-3 pt-2"> or Sign in
+          with:</p>
+
+        <div class="row my-3 d-flex justify-content-center">
+          <!--Facebook-->
+          <button type="button" class="btn btn-white btn-rounded mr-md-3 z-depth-1a"><i class="fab fa-facebook-f text-center"></i></button>
+          <!--Twitter-->
+          <button type="button" class="btn btn-white btn-rounded mr-md-3 z-depth-1a"><i class="fab fa-twitter"></i></button>
+          <!--Google +-->
+          <button type="button" class="btn btn-white btn-rounded z-depth-1a"><i class="fab fa-google-plus-g"></i></button>
+        </div>
+      </div>
+      <!--Footer-->
+      <div class="modal-footer mx-5 pt-3 mb-1">
+        <p class="nav-link js-scroll-trigger" data-toggle="modal" data-target="#registerForm" data-dismiss="modal" aria-label="Close">Not a member? <a href="#" class="blue-text ml-1">
+            Sign Up</a></p>
+      </div>
+    </div>
+    <!--/.Content-->
+  </div>
+</div>
+
+
+<!-- Register -->
+	<!-- Modal -->
+<div class="modal fade" id="registerForm" tabindex="-1" role="dialog" aria-labelledby="Form-SignIn"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <!--Content-->
+    <div class="modal-content form-elegant">
+      <!--Header-->
+      <div class="modal-header text-center">
+        <h3 class="modal-title w-100 dark-grey-text font-weight-bold my-3" id="myModalLabel"><strong>Register</strong></h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <!--Body-->
+      <div class="modal-body mx-4">
+        <!--Body-->
+        <div class="md-form mb-5">
+		  <i class="fas fa-envelope prefix"></i>
+		  <label data-error="wrong" data-success="right" for="Form-email1">Your email</label>
+          <input type="email" id="RegisEmail" class="form-control validate">
+        </div>
+
+        <div class="md-form pb-3">
+		  <i class="fas fa-lock prefix"></i>
+		  <label data-error="wrong" data-success="right" for="Form-pass1">Your password</label>
+          <input type="password" id="RegisPass" class="form-control validate">
+		  
+        </div>
+		
+		<div class="md-form pb-3">
+		  <i class="fas fa-lock prefix"></i>
+		  
+		  <label data-error="wrong" data-success="right" for="Form-pass1">Please enter your Password again</label>
+          <input type="password" id="RegisPass2" class="form-control validate">
+        </div>
+
+        <div class="text-center mb-3">
+          <button type="button" id="send" class="btn blue-gradient btn-block btn-rounded z-depth-1a" class="nav-link js-scroll-trigger" data-toggle="modal"  data-dismiss="modal" aria-label="Close">Sign up</button>
+        </div>
+        <p class="font-small dark-grey-text text-right d-flex justify-content-center mb-3 pt-2"> or Sign up
+          with:</p>
+
+        <div class="row my-3 d-flex justify-content-center">
+          <!--Facebook-->
+          <button type="button" class="btn btn-white btn-rounded mr-md-3 z-depth-1a"><i class="fab fa-facebook-f text-center"></i></button>
+          <!--Twitter-->
+          <button type="button" class="btn btn-white btn-rounded mr-md-3 z-depth-1a"><i class="fab fa-twitter"></i></button>
+          <!--Google +-->
+          <button type="button" class="btn btn-white btn-rounded z-depth-1a"><i class="fab fa-google-plus-g"></i></button>
+        </div>
+      </div>
+      <!--Footer-->
+      <div class="modal-footer mx-5 pt-3 mb-1">
+	       <p class="nav-link js-scroll-trigger" data-toggle="modal" data-target="#loginForm" data-dismiss="modal" aria-label="Close">Alread as a member? <a href="#" class="blue-text ml-1">
+            Sign In</a></p>
+      </div>
+    </div>
+    <!--/.Content-->
+  </div>
+</div>
+
+<!-- Modal -->
+
+
+    <body id="page-top">
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
+            <div class="container">
+                <a class="navbar-brand js-scroll-trigger" href="#page-top">Start Bootstrap</a><button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ml-auto my-2 my-lg-0">
+					<li class="nav-item"><a href="" class="nav-link js-scroll-trigger" data-toggle="modal" data-target="#loginForm">Login</a></li>
+					<li class="nav-item"><a href="" class="nav-link js-scroll-trigger" data-toggle="modal" data-target="#registerForm">SignUp</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#about">About</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#services">Services</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#portfolio">Portfolio</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- Masthead-->
+        <header class="masthead">
+            <div class="container h-100">
+                <div class="row h-100 align-items-center justify-content-center text-center">
+                    <div class="col-lg-10 align-self-end">
+                        <h1 class="text-uppercase text-white font-weight-bold">Your Favorite Coffee beans</h1>
+                        <hr class="divider my-4" />
+                    </div>
+                    <div class="col-lg-8 align-self-baseline">
+                        <p class="text-white-75 font-weight-light mb-5">Each coffee bean from the production area has a special flavor, and then through different roasting degrees, it can show a wonderful taste!</p>
+                        <p class="text-white-75 font-weight-light mb-5">Let's record your favorite coffee beans!</p>
+                    </div>
+					      <div class="col-lg-8 align-self-baseline">
+                        <p class="text-white-75 font-weight-light mb-5" id="temp"></p>
+                        <p class="text-white-75 font-weight-light mb-5"id="place"></p>
+						<p class="text-white-75 font-weight-light mb-5"id="rectime"></p>
+						<p class="text-white-75 font-weight-light mb-5"id="txt"></p>
+						<body onload="startTime()">
+                        
+                    </div>
+
+                </div>
+            </div>
+        </header>
+
+
+
+        <footer class="bg-light py-5">
+            <div class="container"><div class="small text-center text-muted">Copyright © 2020 - Shao Zhiwen</div></div>
+        </footer>
+        <!-- Bootstrap core JS-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
+        <!-- Third party plugin JS-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="js/scripts.js"></script>
+    </body>
+</html>

@@ -1,0 +1,205 @@
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" id="bootstrap-css">
+
+
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+<style>
+@import url(https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css);
+@import url(https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.4.3/css/mdb.min.css);
+
+.hm-gradient {
+    background-image: linear-gradient(to top, #f3e7e9 0%, #e3eeff 99%, #e3eeff 100%);
+}
+.darken-grey-text {
+    color: #2E2E2E;
+}
+.danger-text {
+    color: #ff3547; }
+.default-text {
+    color: #2BBBAD; 
+}
+.info-text {
+    color: #33b5e5; 
+}
+.form-white .md-form label {
+  color: #fff; 
+}
+.form-white input[type=text]:focus:not([readonly]) {
+    border-bottom: 1px solid #fff;
+    -webkit-box-shadow: 0 1px 0 0 #fff;
+    box-shadow: 0 1px 0 0 #fff; 
+}
+.form-white input[type=text]:focus:not([readonly]) + label {
+    color: #fff; 
+}
+.form-white input[type=password]:focus:not([readonly]) {
+    border-bottom: 1px solid #fff;
+    -webkit-box-shadow: 0 1px 0 0 #fff;
+    box-shadow: 0 1px 0 0 #fff; 
+}
+.form-white input[type=password]:focus:not([readonly]) + label {
+    color: #fff; 
+}
+.form-white input[type=password], .form-white input[type=text] {
+    border-bottom: 1px solid #fff; 
+}
+.form-white .form-control:focus {
+    color: #fff;
+}
+.form-white .form-control {
+    color: #fff;
+}
+.form-white textarea.md-textarea:focus:not([readonly]) {
+    border-bottom: 1px solid #fff;
+    box-shadow: 0 1px 0 0 #fff;
+    color: #fff; 
+}
+.form-white textarea.md-textarea  {
+    border-bottom: 1px solid #fff;
+    color: #fff;
+}
+.form-white textarea.md-textarea:focus:not([readonly])+label {
+    color: #fff;
+}
+.ripe-malinka-gradient {
+    background-image: linear-gradient(120deg, #f093fb 0%, #f5576c 100%);
+}
+.near-moon-gradient {
+    background-image: linear-gradient(to bottom, #5ee7df 0%, #b490ca 100%);
+}
+
+</style>
+<script>
+
+
+
+$( document ).ready(function() {
+
+
+     $('body').on('click', "#send",function(){
+     
+            var username=$("#defaultForm-email").val();
+            var password=$("#defaultForm-pass").val();
+            var password2=$("#defaultForm-pass2").val();
+            
+            
+            if(username=="" || password=="" || password2==""){
+               alert("Please enter username");
+               return;
+            }
+            
+            
+          
+            
+            
+            
+            var mydata="user="+username+"&pass="+password+"&pass2="+password2;
+			var mydata={"user":"alex","pass":"1234"}
+            alert(mydata);
+      
+         $.ajax({
+            type: "POST", // Post / Get method
+            url: "http://127.0.0.1:9999/passdata", //Where form data is sent on submission
+            dataType:"json", // Data type, HTML, json etc.
+            data:JSON.stringify(mydata), //Form variables
+            success:function(response){
+				alert(response);
+                if(response=="success"){
+                    window.location="/member";
+                }else if(response=="fail"){
+                
+                    window.location="/nonmember";
+                
+                }
+          
+            },
+            error:function (xhr, ajaxOptions, thrownError){
+                alert(thrownError);
+            }
+            });
+      });       
+            
+});
+
+
+ 
+
+</script>
+<body class="hm-gradient">
+    
+    
+    <a href="/member">
+    
+    
+    
+    <body class="hm-gradient">
+    
+    <main>
+        
+        <!--MDB Forms-->
+        <div class="container mt-4">
+
+            <div class="text-center darken-grey-text mb-4">
+                <h1 class="font-bold mt-4 mb-3 h5">Built with Material Design for Bootstrap 4</h1>
+                <a class="btn btn-danger btn-md" href="https://mdbootstrap.com/material-design-for-bootstrap/" target="_blank">Free download<i class="fa fa-download pl-2"></i></a>
+            </div>
+
+            <!-- Grid row -->
+            <div class="row">
+                <!-- Grid column -->
+                <div class="col-md-6 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="text-center default-text py-3"><i class="fa fa-lock"></i> Login:</h3>
+                            <!--Body-->
+                            <div class="md-form">
+                                <i class="fa fa-envelope prefix grey-text"></i>
+                                <input type="text" id="defaultForm-email" class="form-control">
+                                <label for="defaultForm-email">Your email</label>
+                            </div>
+                            <div class="md-form">
+                                <i class="fa fa-lock prefix grey-text"></i>
+                                <input type="password" id="defaultForm-pass" class="form-control">
+                                <label for="defaultForm-pass">Your password</label>
+                            </div>
+                             <div class="md-form">
+                                <i class="fa fa-lock prefix grey-text"></i>
+                                <input type="text" id="defaultForm-pass2" class="form-control">
+                                <label for="defaultForm-pass2">Re-enter password</label>
+                            </div>
+                            <div class="text-center">
+                                <button id="send" class="btn btn-default waves-effect waves-light">next</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Grid column -->
+                <!-- Grid column -->
+               
+                <!-- Grid column -->
+            </div>
+           
+              
+              
+                <!-- Grid column -->
+            </div>
+            <!-- Grid row -->
+          
+            <hr class="my-4">
+          
+            <div class="text-center darken-grey-text mb-4">
+                <h3 class="font-bold mb-3">Here you can find more Forms:</h3>
+                <a class="btn btn-danger" href="https://mdbootstrap.com/components/forms/" target="_blank">Bootstrap Forms</a>
+            </div>
+
+        </div>
+        <!--MDB Forms-->
+      
+    </main>
+    
+        <!-- MDB core JavaScript -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.4.1/js/mdb.min.js"></script>
+  
+</body>

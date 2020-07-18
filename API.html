@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" id="bootstrap-css">
+
+
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/zh_HK/sdk.js#xfbml=1&version=v7.0" nonce="xj75JRI4"></script>
+
+<style>
+.form-elegant .font-small {
+    font-size: 0.8rem; }
+
+.form-elegant .z-depth-1a {
+    -webkit-box-shadow: 0 2px 5px 0 rgba(55, 161, 255, 0.26), 0 4px 12px 0 rgba(121, 155, 254, 0.25);
+    box-shadow: 0 2px 5px 0 rgba(55, 161, 255, 0.26), 0 4px 12px 0 rgba(121, 155, 254, 0.25); }
+
+.form-elegant .z-depth-1-half,
+.form-elegant .btn:hover {
+    -webkit-box-shadow: 0 5px 11px 0 rgba(85, 182, 255, 0.28), 0 4px 15px 0 rgba(36, 133, 255, 0.15);
+    box-shadow: 0 5px 11px 0 rgba(85, 182, 255, 0.28), 0 4px 15px 0 rgba(36, 133, 255, 0.15); }
+
+.form-elegant .modal-header {
+    border-bottom: none; }
+
+.modal-dialog .form-elegant .btn .fab {
+    color: #2196f3!important; }
+
+.form-elegant .modal-body, .form-elegant .modal-footer {
+    font-weight: 400; }
+</style>
+
+<script>
+function startTime() {
+  var today = new Date();
+  var h = today.getHours();
+  var m = today.getMinutes();
+  var s = today.getSeconds();
+  m = checkTime(m);
+  s = checkTime(s);
+  document.getElementById('txt').innerHTML = "Time: "+
+  h + ":" + m + ":" + s;
+  var t = setTimeout(startTime, 500);
+}
+function checkTime(i) {
+  if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+  return i;
+}
+</script>
+
+<script>
+$(document).ready(function () {
+
+            $.ajax({
+                type: "POST",
+                url: "https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType=fnd&lang=en",
+                dataType: "json",
+                success: function (result, status, xhr) {
+              
+                
+				var todaytemp = result.soilTemp[0].value+ "°C";
+				//var maxtemp = result.weatherForecast[0].forecastMaxtemp.value+"C";
+				var place = result.soilTemp[0].place;
+				var time = result.soilTemp[0].recordTime;
+				
+				document.getElementById("temp").innerHTML =  "Temp: "+todaytemp;
+				document.getElementById("place").innerHTML = "Location: "+place;
+					document.getElementById("rectime").innerHTML =  "Data: "+time;
+           
+                },
+                error: function (xhr, status, error) {
+                    alert("Result: " + status + " " + error + " " + xhr.status + " " + xhr.statusText)
+                }
+            });
+        });
+ 
+
+
+</script>
+
+
+
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Creative - Start Bootstrap Theme</title>
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico" />
+        <!-- Font Awesome icons (free version)-->
+        <script src="https://use.fontawesome.com/releases/v5.13.0/js/all.js" crossorigin="anonymous"></script>
+        <!-- Google fonts-->
+        <link href="https://fonts.googleapis.com/css?family=Merriweather+Sans:400,700" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic" rel="stylesheet" type="text/css" />
+        <!-- Third party plugin CSS-->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.min.css" rel="stylesheet" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="css/styles.css" rel="stylesheet" />
+		
+		<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+<script src="https://api.mapbox.com/mapbox-gl-js/v1.11.1/mapbox-gl.js"></script>
+<link href="https://api.mapbox.com/mapbox-gl-js/v1.11.1/mapbox-gl.css" rel="stylesheet" />
+    </head>
+
+<!-- Modal -->
+
+
+    <body id="page-top">
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
+            <div class="container">
+                <a class="navbar-brand js-scroll-trigger" href="#page-top">Coffee Beans</a><button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ml-auto my-2 my-lg-0">
+                        <!--<li class="nav-item"><a class="nav-link js-scroll-trigger" href="#about">About</a></li>-->
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="/member_mainpage">All beans</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="/member_favlist">MyFavoriteBeans</a></li>
+						<li class="nav-item"><a class="nav-link js-scroll-trigger" href="/API">API</a></li>
+						<li class="nav-item"><a class="nav-link js-scroll-trigger" href="/MyAPI">MyAPI</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" id="logout" >Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- Masthead-->
+        <header class="masthead">
+            <div class="container h-100">
+                <div class="row h-100 align-items-center justify-content-center text-center">
+                    <div class="col-lg-10 align-self-end">
+                        <h1 class="text-uppercase text-white font-weight-bold">Your Favorite Coffee beans</h1>
+                        <hr class="divider my-4" />
+                    </div>
+                    <div class="col-lg-8 align-self-baseline">
+                        <p class="text-white-75 font-weight-light mb-5">Each coffee bean from the production area has a special flavor, and then through different roasting degrees, it can show a wonderful taste!</p>
+                        <p class="text-white-75 font-weight-light mb-5">Let's record your favorite coffee beans!</p>
+                    </div>
+					      <div class="col-lg-8 align-self-baseline">
+                        <p class="text-white-75 font-weight-light mb-5" id="temp"></p>
+                        <p class="text-white-75 font-weight-light mb-5"id="place"></p>
+						<p class="text-white-75 font-weight-light mb-5"id="rectime"></p>
+						<p class="text-white-75 font-weight-light mb-5"id="txt"></p>
+						<body onload="startTime()">
+                        
+                    </div>
+
+                </div>
+            </div>
+        </header>
+
+		<div class="fb-share-button" data-href="http://127.0.0.1:9999/API" data-layout="button_count" data-size="large"><a target="_blank"
+		href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2F127.0.0.1%3A9999%2FAPI&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">分享</a></div>
+<style>
+
+#menu {
+position:absolute;
+background: #fff;
+padding: 10px;
+font-family: 'Open Sans', sans-serif;
+}
+</style>
+
+<div id="map" style='width: 800px; height: 800px;   display: block;
+margin-left: auto; margin-right: auto;' ></div>
+<div id="menu"  >
+<input 
+id="streets-v11"
+type="radio"
+name="rtoggle"
+value="streets"
+checked="checked"
+/>
+<label for="streets-v11" >streets</label>
+<input id="light-v10" type="radio" name="rtoggle" value="light" />
+<label for="light-v10">light</label>
+<input id="dark-v10" type="radio" name="rtoggle" value="dark" />
+<label for="dark-v10">dark</label>
+<input id="outdoors-v11" type="radio" name="rtoggle" value="outdoors" />
+<label for="outdoors-v11">outdoors</label>
+<input id="satellite-v9" type="radio" name="rtoggle" value="satellite" />
+<label for="satellite-v9">satellite</label>
+</div>
+<script>
+	// TO MAKE THE MAP APPEAR YOU MUST
+	// ADD YOUR ACCESS TOKEN FROM
+	// https://account.mapbox.com
+	mapboxgl.accessToken = 'pk.eyJ1IjoidGVlbW9zaGFvIiwiYSI6ImNrY3FiZjc0bTBucnQyeG1uMXRrZ2RzbTIifQ.uD0dHqEAE-85yhqmaVTmJw';
+var map = new mapboxgl.Map({
+container: 'map',
+style: 'mapbox://styles/mapbox/streets-v11',
+zoom: 13,
+center: [4.899, 52.372]
+});
+ 
+var layerList = document.getElementById('menu');
+var inputs = layerList.getElementsByTagName('input');
+ 
+function switchLayer(layer) {
+var layerId = layer.target.id;
+map.setStyle('mapbox://styles/mapbox/' + layerId);
+}
+ 
+for (var i = 0; i < inputs.length; i++) {
+inputs[i].onclick = switchLayer;
+}
+</script>
+        <!-- Footer-->
+        <footer class="bg-light py-5">
+            <div class="container"><div class="small text-center text-muted">Copyright © 2020 - Shao Zhiwen</div></div>
+        </footer>
+        <!-- Bootstrap core JS-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
+        <!-- Third party plugin JS-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="js/scripts.js"></script>
+    </body>
+</html>
